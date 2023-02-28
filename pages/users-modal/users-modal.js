@@ -25,7 +25,7 @@ function showAllData(data) {
     <td>${user.address.street} </td>  
     <td>${user.address.city} </td>
     <td>
-    <button id="row-btn_details_${user.id}" type="button"  class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Details</button> 
+    <button id="row-btn_details_${user.id}" type="button"  class="btn btn-sm btn-primary">Details</button> 
     <button id="row-btn_delete_${user.id}" type="button"  class="btn btn-sm btn-danger">Delete</button> 
     </td>      
   </tr>`)
@@ -44,10 +44,7 @@ async function showUserDetails(evt) {
   const id = parts[2]
   const btnAction = parts[1]
     if (btnAction === "details") {
-      document.getElementById("exampleModalLabel").innerText = "Details for user "+id
-      const user = await fetch(URL + id).then(res => res.json())
-      document.getElementById("modal-body").innerText = 
-      JSON.stringify(user,null,2)
+      alert("Here you can Add an option to view details for user with id: " + id )
       
     } 
     else 
