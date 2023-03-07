@@ -11,6 +11,7 @@ import { showMatchObject } from "./pages/show-match/match.js"
 import { initUsersModal } from "./pages/users-modal/users-modal.js"
 import { initUsers } from "./pages/users-navigate/users.js"
 import { initFindUser } from "./pages/findUser/findUser.js"
+import { demo1 } from "./pages/demo1/demo1.js"
 
 window.addEventListener("load", async () => {
 
@@ -21,6 +22,7 @@ window.addEventListener("load", async () => {
   const templateNavigate = await loadTemplate("./pages/navigate/navigate.html")
   const templateMatch = await loadTemplate("./pages/show-match/match.html")
   const templateNotFound = await loadTemplate("./pages/notFound/notFound.html")
+  const templateDemo1 = await loadTemplate("./pages/demo1/demo1.html")
 
   adjustForMissingHash()
 
@@ -68,6 +70,10 @@ window.addEventListener("load", async () => {
       "/show-match": (match) => {
         renderTemplate(templateMatch, "content")
         showMatchObject(match)
+      },
+      "/demo1": (match) => {
+        renderTemplate(templateDemo1, "content")
+        demo1()
       }
     })
     .notFound(() => {
