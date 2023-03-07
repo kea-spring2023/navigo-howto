@@ -67,6 +67,22 @@ export function setActiveLink(topnav, activeUrl) {
 }
 
 /**
+ * Small utility function to use in the first "then()" when fetching data from a REST API that supply error-responses as JSON
+ *
+ * Use like this--> const responseData = await fetch(URL,{..}).then(handleHttpErrors)
+ */
+export async function handleHttpErrors(res) {
+  if (!res.ok) {
+    const errorResponse = await res.json();
+    const error = new Error(errorResponse.message)
+    error.apiError = errorResponse
+    throw error
+  }
+  return res.json()
+}
+
+
+/**
  * HINT --> USE DOMPurify.santitize(..) to sanitize a full string of tags to be inserted
  * via innerHTLM
  * Tablerows are required to be inside a table tag, so use this small utility function to 
