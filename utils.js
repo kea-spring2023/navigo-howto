@@ -1,37 +1,39 @@
 /**
  * Appends the provided template to the node with the id contentId
- * @param {*} templ The HTML-Template to render
+ * @param {*} template The HTML to render
  * @param {string} contentId 
  */
- export function renderTemplate(templ, contentId) {
-  const clone = templ.content.cloneNode(true)
+export function renderHtml(template, contentId) {
   const content = document.getElementById(contentId)
+  if (!content) {
+    throw Error("No Element found for provided content id")
+  }
   content.innerHTML = ""
-  content.appendChild(clone)
+  content.append(template)
 }
 
 
 /**
- * Loads an external file with an html-template, adds it to the body of your page, and returns the template
- * The file to be loaded can contain more than one template, but the one that will be returned must
- * be the first one in the file and this does not require an id
+ * Loads an external file with an div with the class "template", adds it to the body of your page, and returns
+ * the div
  * @param {string} page - Path to the file containing the template ('/templates/template.html')
  * @return {Promise<*>} On succesfull resolvement, the HtmlTemplate found in the file
  */
-export async function loadTemplate(page) {
+export async function loadHtml(page) {
   const resHtml = await fetch(page).then(r => {
     if (!r.ok) {
       throw new Error(`Failed to load the page: '${page}' `)
     }
     return r.text()
   });
-  //const body = document.getElementsByTagName("BODY")[0];
-  const div = document.createElement("div");
-  div.innerHTML = resHtml;
-  //body.appendChild(div)
-  //return div.querySelector("template")
-  return div.querySelector("template")
-};
+  const parser = new DOMParser()
+  const content = parser.parseFromString(resHtml, "text/html")
+  const div = content.querySelector(".template")
+  if (!div) {
+    throw new Error(`No outer div with class 'template' found in file '${page}'`)
+  }
+  return div
+}
 
 
 
